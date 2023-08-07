@@ -1,0 +1,600 @@
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+//Global Variabel
+string judul, pengarang;
+int pilih, tahun, id;
+
+//Deklarasi Struct Node
+struct node{
+    node *prev;
+    string judul;
+    string pengarang;
+    int tahun;
+    node *next;
+};
+
+//Global head, tail, dan vertex
+node *head, *tail, *vertex;
+
+//Inisialisasi Node
+void init(){
+    head = tail = NULL;
+}
+
+//Pengecekan
+bool dLinkKosong(){
+    if(head == NULL && tail == NULL){
+            return true;
+    }else{
+        return false;
+    }
+}
+
+//Hitung Jumlah List
+int hitungList(){
+    node *hitung;
+    hitung = head;
+    int jumlah = 0;
+    do{
+        jumlah++;
+        hitung = hitung->next;
+    }while(hitung != head);
+    return jumlah;
+}
+
+//Prosedur Tambah Depan
+void tambahDepan(){
+    if(dLinkKosong() == true){
+            vertex = new node;
+            vertex->judul = judul;
+            vertex->pengarang = pengarang;
+            vertex->tahun = tahun;
+            head = vertex;
+            tail = vertex;
+            head->prev = tail;
+            tail->next = head;
+            cout<<" Data berhasil di input!\n";
+    }
+
+    else{
+        vertex = new node;
+        vertex->judul = judul;
+        vertex->pengarang = pengarang;
+        vertex->tahun = tahun;
+        vertex->next = head;
+        head->prev = vertex;
+        head = vertex;
+        head->prev = tail;
+        tail->next = head;
+        cout<<" Data berhasil di input!\n";
+    }
+}
+
+
+//Prosedur Tambah Tengah
+void tambahTengah(){
+    node *helper1, *helper2;
+    vertex = new node;
+    if(dLinkKosong()== true){
+        vertex->judul = judul;
+        vertex->pengarang = pengarang;
+        vertex->tahun = tahun;
+        head = vertex;
+        tail = vertex;
+        head->prev = tail;
+        tail->next = head;
+        cout<<" Data berhasil di input!\n";
+    }
+
+    else {
+        vertex->judul = judul;
+        vertex->pengarang = pengarang;
+        vertex->tahun = tahun;
+
+        //Transfer Data
+        helper1 = head;
+        int nomor = 1;
+        do{
+            helper2 = helper1;
+            helper1=helper1->next;
+            nomor++;
+        } while(nomor < id);
+        vertex->next = helper1;
+        vertex->prev = helper2;
+        helper1->prev = vertex;
+        helper2->next = vertex;
+        cout<<" Data berhasil di input!\n";
+    }
+}
+
+//Prosedur Tambah Belakang
+void tambahBelakang(){
+    if(dLinkKosong()== true){
+        vertex = new node;
+        vertex->judul = judul;
+        vertex->pengarang = pengarang;
+        vertex->tahun = tahun;
+        head = vertex;
+        tail = vertex;
+        head->prev = tail;
+        tail->next = head;
+        //cout<<" Data "<<dataUser;
+        cout<<" Data berhasil di input!\n";
+    }
+
+    else{
+        vertex = new node;
+        vertex->judul = judul;
+        vertex->pengarang = pengarang;
+        vertex->tahun = tahun;
+        vertex->prev = tail;
+        tail->next = vertex;
+        tail = vertex;
+        tail->next = head;
+        head->prev = tail;
+        cout<<" Data berhasil di input!\n";
+    }
+}
+
+//Ubah Depan
+void ubahDepan(){
+    if(dLinkKosong() == false){
+        head->judul = judul;
+        head->pengarang = pengarang;
+        head->tahun = tahun;
+        cout << " Data berhasil di input!\n";
+    }
+
+    else {
+        cout << "\n List masih kosong...!!!" << endl;
+    }
+}
+
+//Ubah Belakang
+void ubahBelakang(){
+    if(dLinkKosong() == false){
+        tail->judul = judul;
+        tail->pengarang = pengarang;
+        tail->tahun = tahun;
+    }
+
+    else {
+        cout << "\n List masih kosong...!!!" << endl;
+    }
+}
+
+//Ubah Tengah
+void ubahTengah(){
+    vertex = new node;
+    if(dLinkKosong() == false){
+        int nomor = 1;
+        vertex = head;
+        while(nomor < id){
+            vertex = vertex->next;
+            nomor++;
+        }
+
+        vertex->judul = judul;
+        vertex->pengarang = pengarang;
+        vertex->tahun = tahun;
+        cout<<" Data telah diperbarui !\n";
+    }
+
+    else {
+        cout << "\n List masih kosong...!!!\n";
+    }
+}
+
+//Prosedur Hapus Depan
+void hapusDepan(){
+    if(dLinkKosong() == false){
+        node* helper;
+        helper = head;
+
+        if(head == tail){
+            tail->next = NULL;
+            head->prev = NULL;
+            head = NULL;
+            tail = NULL;
+            cout<<" Data berhasil dihapus!\n";
+            delete helper;
+        }
+        
+        else{
+            head = head->next;
+            head->prev = tail;
+            tail->next = head;
+            helper->next = NULL;
+            cout<<" Data berhasil dihapus!\n";
+            delete helper;
+        }
+    }
+
+    else{
+        cout<<"\n List masih kosong...!!!"<<endl;
+    }
+}
+
+//Prosedur Hapus Tengah
+void hapusTengah(){
+    if (dLinkKosong() == false){
+        node *helper1, *helper2;
+        node *hapus;
+        helper1 = head;
+        int nomor = 1;
+        do{
+            helper2 = helper1;
+            helper1=helper1->next;
+            nomor++;
+        } 
+        
+        while(nomor < id);
+        hapus = helper1;
+        helper1 = helper1->next;
+        helper2->next = helper1;
+        helper1->prev = helper2;
+
+        cout<<" Data berhasil dihapus!\n";
+        delete hapus;
+    }
+
+    else {
+        cout << "\n List masih kosong...!!!" << endl;
+    }
+}
+
+//Prosedur Hapus Belakang
+void hapusBelakang(){
+    if(dLinkKosong() == false){
+        if(head == tail){
+            node* helper;
+            helper = head;
+            head->prev = NULL;
+            tail->next = NULL;
+            head = NULL;
+            tail = NULL;
+            cout<<" Data berhasil dihapus!\n";
+            delete helper;
+        }
+
+        else{
+            node* helper;
+            helper = tail;
+            tail = tail->prev;
+            tail->next = head;
+            head->prev = tail;
+            helper->prev = NULL;
+            helper->next = NULL;
+            cout<<" Data berhasil dihapus!\n";
+            delete helper;
+        }
+    }else{
+        cout<<"\n List masih kosong...!!!"<<endl;
+    }
+}
+
+//Konversi Upper dan Lowercase
+bool konversi(string item1, string item2){
+    char tmp;
+    string result1, result2;
+    int i;
+    int panjang1 = item1.length();
+    int panjang2 = item2.length();
+    for (i=0;i < panjang1; i++){
+        tmp = item1[i];
+        result1 += tolower(tmp);
+    }
+
+    for (i=0;i < panjang2; i++){
+        tmp = item2[i];
+        result2 += tolower(tmp);
+    }
+
+    if (result1 == result2){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+//Pencarian Buku
+void cariBuku(string item){
+    node* ptr;
+    int i=1, flag=0;
+    ptr = head;
+    if (dLinkKosong() == true){
+        cout << "\n List masih kosong...!!!"<<endl;
+    } else {
+        do{
+            if (konversi(ptr->judul, item) == true){
+                cout << " Hasil Pencarian :";
+                cout << "\n\n ID";
+                cout << "\t\tJUDUL";
+                cout << "\t\tPENGARANG";
+                cout << "\t\tTAHUN TERBIT";
+                cout << "\n\n " << i;
+                cout << "\t\t"<<ptr->judul;
+                cout << "\t\t"<<ptr->pengarang;
+                cout << "\t\t"<<ptr->tahun;
+                flag = 1;
+                break;
+            }
+            i++;
+            ptr=ptr->next;
+        }while(ptr != head);
+        if (flag == 0){
+            cout << "\n\n Buku Tidak Ditemukan!"<<endl;
+        }
+        cout << endl;
+    }
+}
+
+//Tampilkan Seluruh Data List
+void tampilData(){
+    id = 0;
+    node* helper;
+    helper = head;
+    cout << "\n\n ID";
+    cout << "\t\tJUDUL";
+    cout << "\t\tPENGARANG";
+    cout << "\t\tTAHUN TERBIT";
+    if(dLinkKosong() == true){
+        cout << "\n\n";
+    }
+
+    else {
+        do{
+            id++;
+            cout << "\n\n " << id;
+            cout << "\t\t"<<helper->judul;
+            cout << "\t\t"<<helper->pengarang;
+            cout << "\t\t"<<helper->tahun;
+            helper = helper->next;
+        }while(helper != head);
+    }
+    cout << "\n\n";
+}
+
+//Menu
+void menu(){
+    system("cls");
+    cout << "\n\n\t\t\t\tDAFTAR MENU PROGRAM";
+    cout << "\n\n 1. TAMBAH BUKU";
+    cout << "\n 2. UPDATE DAFTAR BUKU";
+    cout << "\n 3. TAMPILKAN DAFTAR BUKU";
+    cout << "\n 4. HAPUS BUKU";
+    cout << "\n 5. CARI BUKU";
+    cout << "\n 6. KELUAR";
+}
+
+//Tampilan Awal Program (Menu + Input Menu)
+int tampil_awal(){
+    int pilih;
+    menu();
+    cout << "\n\n Masukkan Pilihan [1-6]: ";
+    cin >> setw(1) >> pilih;
+
+    //Error Handling untuk Input Menu
+    while(cin.fail()){
+        //Warning
+        cout << "\n\n Input Salah!!!\n";
+        cout << " Masukkan input angka.\n\n";
+        system("pause");
+
+        //Menu
+        menu();
+        cout << "\n\n Masukkan Pilihan [1-6]: ";
+
+        //Clear stream
+        cin.clear();
+        cin.ignore(INT_MAX, '\n');
+
+        //Input Data
+        cin >> setw(1) >> pilih;
+    }
+
+    //Clear stream
+    cin.clear();
+    cin.ignore(INT_MAX, '\n');
+
+    return pilih;
+}
+
+//Error Handling
+int error_int(string opsi){
+    while (cin.fail()){
+        system("cls");
+        cout << "\n\n";
+
+        if(opsi == "id"){
+            //Tampilan Judul Sesuai Input Pilih
+            if(pilih==1){
+                cout << "\t\t TAMBAH BUKU\n\n";
+            } else if (pilih==2){
+                cout << "\t\t UPDATE DAFTAR BUKU\n\n";
+            } else if (pilih==4) {
+                cout << "\t\t HAPUS BUKU\n\n";
+            }
+
+            cout << " ID Buku (Masukkan input angka!): ";
+
+            //Clear Stream
+            cin.clear();
+            cin.ignore(INT_MAX, '\n');
+
+            //Input Data
+            cin >> id;
+
+            cin.clear();
+            cin.ignore(INT_MAX, '\n');
+
+            return id;
+        }
+
+        else if (opsi == "tahun"){
+            //Tampilan Judul Sesuai Input Pilih
+            if(pilih==1){
+                cout << "\t\t TAMBAH BUKU\n\n";
+            } else if(pilih==2){
+                cout << "\t\t UPDATE DAFTAR BUKU\n\n";
+            }
+
+            cout << " ID Buku      : "<<id<<endl;
+            cout << " Judul        : "<<judul<<endl;
+            cout << " Pengarang    : "<<pengarang<<endl;
+            cout << " Tahun Terbit (Masukkan input angka!): ";
+
+            //Clear Stream
+            cin.clear();
+            cin.ignore(INT_MAX, '\n');
+            cin >> tahun;
+
+            cin.clear();
+            cin.ignore(INT_MAX, '\n');
+            return tahun;
+        }
+    }
+    if (opsi=="id"){return id;}
+    else if (opsi=="tahun"){return tahun;}
+}
+
+//Main Function
+int main()
+{
+    init();
+
+    do{
+        pilih = tampil_awal();
+
+        switch(pilih){
+            case 1:
+                system("cls");
+                cout << "\n\n";
+                cout << "\t\t TAMBAH BUKU\n\n";
+
+                //Input Data
+                cout << " ID Buku      : ";
+                cin >> id;
+                id = error_int("id"); //Error Handling
+                cout << " Judul        : ";
+                cin.ignore();
+                getline(cin, judul);
+                cout << " Pengarang    : ";
+                getline(cin, pengarang);
+                cout << " Tahun Terbit : ";
+                cin>>tahun;
+                tahun = error_int("tahun"); //Error Handling
+
+                //Proses Penambahan Ke LinkedList
+                if(id == 1 || dLinkKosong() == true){
+                    tambahDepan();
+                }
+                else if(id > hitungList() && dLinkKosong() == false){
+                    tambahBelakang();
+                }
+                else{
+                    tambahTengah();
+                }
+
+                cout << endl;
+                system("pause");
+                break;
+            case 2:
+                system("cls");
+                cout << "\n\n";
+                cout << "\t\t UPDATE DAFTAR BUKU\n\n";
+
+                //Input Data
+                cout << " ID Buku      : ";
+                cin>>id;
+                id=error_int("id");
+                cout << " Judul        : ";
+                cin.ignore();
+                getline(cin, judul);
+                cout << " Pengarang    : ";
+                getline(cin, pengarang);
+                cout << " Tahun Terbit : ";
+                cin>>tahun;
+                tahun = error_int("tahun");
+
+                //Proses Pengubahan Data
+                if(id == 1){
+                    ubahDepan();
+                }
+                else if(id == hitungList()){
+                    ubahBelakang();
+                }
+                else {
+                    ubahTengah();
+                }
+
+                cout << endl;
+                system("pause");
+                break;
+            case 3:
+                system("cls");
+                cout << "\n\n";
+                cout << "\t\t\t DAFTAR BUKU \n";
+
+                //Tampilkan Data
+                tampilData();
+
+                system("pause");
+                break;
+            case 4:
+                system("cls");
+                cout << "\n\n";
+                cout << "\t\t HAPUS BUKU\n\n";
+
+                //Input Data
+                cout << " ID Buku      : ";
+                cin >> id;
+                id = error_int("id");
+
+                //Proses Penghapusan Data
+                if(id == 1){
+                    hapusDepan();
+                }
+                else if(id == hitungList()){
+                    hapusBelakang();
+                }
+                else {
+                    hapusTengah();
+                }
+
+                cout << endl;
+                system("pause");
+                break;
+           case 5:
+                system("cls");
+                cout << "\n\n";
+                cout << "\t\t CARI BUKU\n\n";
+
+                //Input Data
+                cout << " Cari Judul Buku : ";
+                getline(cin, judul);
+
+                //Cari Buku
+                cariBuku(judul);
+
+                cout << endl;
+                system("pause");
+                break;
+            case 6:
+                cout << "\n\n Terima Kasih... \n\n";
+                exit(0);
+                break;
+            default:
+                cout << "\n\n Input Salah!!!\n";
+                cout << " Masukkan input angka 1 sampai 6.\n\n";
+                system("pause");
+                break;
+        }
+
+    }while(pilih!=6);
+    return 0;
+}
